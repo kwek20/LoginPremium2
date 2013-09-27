@@ -1,0 +1,45 @@
+main: net.castegaming.plugins.LoginPremium.LoginPremium
+name: LoginPremium
+version: 0.8b
+author: kwek20
+description: A plugin made to handle login and logout
+website: www.castegaming.net
+softdepend: [Vault, Towny, Factions, PermissionsEX]
+
+permissions:
+    loginpremium.loginmessage:
+        description: Sends the login message from the player to the entire server
+        default: false
+    loginpremium.loginoverride:
+        description: Makes the player able to login when the server is full
+        default: false
+    loginpremium.reload:
+        description: Makes the player able to reload the config file
+        default: false
+    loginpremium.set:
+        description: Makes the player able to set stuff in the config file ingame
+        default: false
+    loginpremium.use:
+        desciption: Defines if the player is allowed to use/see LoginPremium info messages
+        default: false
+    loginpremium.*:
+        description: All loginpremium permissions.
+        default: op
+        children:
+          loginpremium.use: true
+          loginpremium.set: true
+          loginpremium.reload: true
+          loginpremium.loginoverride: true
+          loginpremium.loginmessage: true
+        
+commands:
+   loginpremium:
+      description: Base of the LoginPremium command, variant for /lp
+      usage: typ /loginpremium to see the help
+      aliases: [lp]
+   loginpremium reload: 
+      description: Reloads the LoginPremium confg 
+      usage: typ /lpr or /lpreload to reload the config
+   loginpremium set:
+      description: Sets different values for LoginPremium
+      usage: typ /LoginPremium set [config] [value] to change things

@@ -1,0 +1,39 @@
+#--------------------------
+# [LoginPremium] config.yml
+# -------------------------
+# &[colornumber] for colors
+# <prefix> = The prefix of the player in its current world (permissionsEX or Vault required)
+# <suffix> = The suffix of the player in its current world (permissionsEX or Vault required)
+# <prefixcolor> = The color of the player's prefix (permissionsEX or Vault required)
+# <title> = The title the player has in his faction(Factions required)
+# <tag> = The tag from the player his faction(Factions required)
+# <town> = The name from the player his town (Towny required)
+# <name> = The name of the player.
+# <nickname> = The nickname of the player.
+# <xplevel> = The XP level of the player.
+# <world> = The world the player spawns in.
+# <ip> = The player his IP.
+# <op> = If the player is OP.
+# <maxplayers> = The server's max players
+# <whitelisted> = If the player is whitelisted.
+# <motd> = The server's MOTD.
+# <viewdistance> = The server his view distance.
+
+MessagePublicLogin: '<tag><prefix><name><prefixcolor> has logged in'
+MessagePrivateLogin: 'Good to see you again <title><prefix><name>!'
+MessagePublicLogout: '<tag><prefix><name><prefixcolor> has logged out. Cya!'
+kickmessage: '&4Server is full &f-  &6Donate for a reserved slot at &2www.castegaming.net/donate!'
+kickedmessage: <prefix><name>&r<suffix> has logged in, so we needed to make room :(
+sendlogincap: 5
+
+disablefactionswildernesstag: true
+usesendmessageiflessthensetplayerson: true 
+useprivateloginmessage: true 
+usepublicloginmessage: true
+usepubliclogoutmessage: true
+usekickoverride: true
+usespawn: false
+kickplayeronfull: false
+
+overridekickmessage: true
+overridemessages: true
