@@ -136,9 +136,7 @@ public class LoginPremiumPlayerListener implements Listener{
 	
 	//Converses from plain text to variables & colors
 	public String converse(String text){
-		text = LoginPremiumConversions.changeTextToContent(text, player);
-		text = LoginPremiumConversions.changeTextToColors(text);
-		return text;
+		return LoginPremiumConversions.changeTextToContent(text, player);
 	}
 
 }

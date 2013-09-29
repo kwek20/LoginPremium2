@@ -109,8 +109,9 @@ public class LoginPremiumCommandListener implements Listener{
 	 */
     public void reload(){
     	plugin.reloadConfig();
+    	LoginPremiumConversions.clearManagers();
+    	plugin.addManagers();
     	sender.sendMessage("[LoginPremium] Has been reloaded");
-
     }
     
     public void availableOptions(){

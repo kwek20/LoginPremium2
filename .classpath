@@ -13,5 +13,6 @@
 	<classpathentry kind="lib" path="C:/Users/Brord/Dropbox/plugin/FPSCaste server/plugins/mcore.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Brord/Dropbox/plugin/FPSCaste server/plugins/00_disabled/Factions.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Brord/Dropbox/plugin/FPSCaste server/plugins/00_disabled/Towny.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Brord/Dropbox/plugin/FPSCaste server/plugins/Heroes.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

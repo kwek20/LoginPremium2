@@ -1,4 +1,4 @@
-package net.castegaming.plugins.LoginPremium;
+package net.castegaming.plugins.LoginPremium.convertors;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,5 +1,11 @@
 package net.castegaming.plugins.LoginPremium;
 
+import net.castegaming.plugins.LoginPremium.managers.FactionsManager;
+import net.castegaming.plugins.LoginPremium.managers.HeroesManager;
+import net.castegaming.plugins.LoginPremium.managers.PexManager;
+import net.castegaming.plugins.LoginPremium.managers.TownyManager;
+import net.castegaming.plugins.LoginPremium.managers.VaultManager;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -12,38 +18,44 @@ public class LoginPremium extends JavaPlugin{
 
 	public static LoginPremium plugin;
 	
-	public LoginPremium() {
-		System.out.println("Test call");
-	}
-	
 	public void onEnable(){
 		this.saveDefaultConfig();
 		checkConfig();
 		plugin = this;
 		PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new LoginPremiumPlayerListener(this), this);
-        
-        if (isPexEnabled()){
+        addManagers();
+	}
+	
+	public void addManagers(){
+		if (isPexEnabled()){
+        	LoginPremiumConversions.addManager(new PexManager());
         	log("PermissionsEX " + getPEXVersion() + " has been found. Using it :3");
         } else {
         	if (isVaultEnabled()){
-        		LoginPremiumConversions.setupChat();
-        		LoginPremiumConversions.setupPermissions();
+        		LoginPremiumConversions.addManager(new VaultManager());
         		log("Vault " + getVaultVersion() + " has been found! Enabling groups :3");
         	} else {
         		log("PermissionsEX has not been found. Disabling our pEX features :(");
         	}
         }
         if (isFactionsEnabled()){
-        	LoginPremiumConversions.setupFactions();
+        	LoginPremiumConversions.addManager(new FactionsManager());
         	log("Factions " + getFactionsVersion() + " has been found. Using it :3");
         } else {
         	log("Factions has not been found. Disabling our Factions features :(");
         }
         if (isTownyEnabled()){
+        	LoginPremiumConversions.addManager(new TownyManager());
         	log("Towny " + getTownyVersion() + " has been found. Using it :3");
         } else {
         	log("Towny has not been found. Disabling our Towny features :(");
+        }
+        if (isHeroesEnabled()){
+        	LoginPremiumConversions.addManager(new HeroesManager());
+        	log("Heroes " + getHeroesVersion() + " has been found. Using it :3");
+        } else {
+        	log("Heroes has not been found. Disabling our Heroes features :(");
         }
 	}
 	
@@ -122,5 +134,17 @@ public class LoginPremium extends JavaPlugin{
 	
 	public void log(String message){
 		Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.DARK_GREEN + "[" + ChatColor.DARK_RED + "LoginPremium " + getDescription().getVersion() + ChatColor.DARK_GREEN + "] " + ChatColor.RESET + message);
+	}
+
+	public static boolean isHeroesEnabled() {
+		return Bukkit.getServer().getPluginManager().getPlugin("Heroes") != null;
+	}
+	
+	public static String getHeroesVersion() {
+		if (isHeroesEnabled()){
+			return Bukkit.getServer().getPluginManager().getPlugin("Heroes").getDescription().getVersion();
+		} else {
+			return "0";
+		}
 	}
 }

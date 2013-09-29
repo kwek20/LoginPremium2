@@ -1,10 +1,10 @@
 main: net.castegaming.plugins.LoginPremium.LoginPremium
 name: LoginPremium
-version: 0.8b
+version: 0.9
 author: kwek20
 description: A plugin made to handle login and logout
 website: www.castegaming.net
-softdepend: [Vault, Towny, Factions, PermissionsEX]
+softdepend: [Vault, Towny, Factions, PermissionsEX, Heroes]
 
 permissions:
     loginpremium.loginmessage:
