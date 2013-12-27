@@ -3,7 +3,6 @@ package net.castegaming.plugins.LoginPremium;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,16 +14,8 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class LoginPremiumPlayerListener implements Listener{
-
-	//init
-	static ChatColor Green = ChatColor.DARK_GREEN;
-	static ChatColor Blue = ChatColor.BLUE;
-	static ChatColor Gold = ChatColor.GOLD;
-	static ChatColor Yellow = ChatColor.YELLOW;
-	static ChatColor Red = ChatColor.RED;
-	static ChatColor White = ChatColor.WHITE;
 	
-	Player player;
+	private Player player;
 	
 	public LoginPremium plugin;
 	
@@ -45,10 +36,13 @@ public class LoginPremiumPlayerListener implements Listener{
     	int playerson = Bukkit.getOnlinePlayers().length;
     	int sendEveryonesLoginIfUnder = plugin.getConfig().getInt("sendlogincap", 5);
     	
-    	if (plugin.getConfig().getBoolean("usesendmessageiflessthensetplayerson", false) && playerson < sendEveryonesLoginIfUnder){
-    		MessagePublicLogin();
-    	} else if(player.hasPermission("loginpremium.loginmessage") && plugin.getConfig().getBoolean("usepublicloginmessage", true)){
-    		MessagePublicLogin();
+    	if ((plugin.getConfig().getBoolean("usesendmessageiflessthensetplayerson", false) && playerson < sendEveryonesLoginIfUnder) || (player.hasPermission("loginpremium.loginmessage") && plugin.getConfig().getBoolean("usepublicloginmessage", true))){
+    		if (plugin.getConfig().getBoolean("overridemessages", true)){
+        		event.setJoinMessage(null);
+        		MessagePublicLogin();
+        	} else {
+        		event.setJoinMessage(converse(plugin.getConfig().getString("MessagePublicLogin", "")));
+        	}
     	}  
     	
     	if (plugin.getConfig().getBoolean("useprivateloginmessage", true)){
@@ -68,18 +62,17 @@ public class LoginPremiumPlayerListener implements Listener{
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerLeave(PlayerQuitEvent event){
     	
-    	if (plugin.getConfig().getBoolean("overridemessages", true)){
-    		event.setQuitMessage(null);
-    	}
-    	
     	this.player = event.getPlayer();
     	int playerson = Bukkit.getOnlinePlayers().length;
     	int sendEveryonesLoginIfUnder = plugin.getConfig().getInt("sendlogincap", 5);
     	
-    	if (plugin.getConfig().getBoolean("usesendmessageiflessthensetplayerson", true) && playerson < sendEveryonesLoginIfUnder+1){
-    		MessagePublicLogout();
-    	} else if(player.hasPermission("loginpremium.loginmessage") && plugin.getConfig().getBoolean("usepubliclogoutmessage", true)){
-    		MessagePublicLogout();
+    	if ((plugin.getConfig().getBoolean("usesendmessageiflessthensetplayerson", true) && playerson < sendEveryonesLoginIfUnder+1) || (player.hasPermission("loginpremium.loginmessage") && plugin.getConfig().getBoolean("usepubliclogoutmessage", true))){
+    		if (plugin.getConfig().getBoolean("overridemessages", true)){
+        		event.setQuitMessage(null);
+        		MessagePublicLogout();
+        	} else {
+        		event.setQuitMessage(converse(plugin.getConfig().getString("MessagePublicLogout", "")));
+        	}
     	}                       
     }
     
@@ -118,19 +111,19 @@ public class LoginPremiumPlayerListener implements Listener{
     
     //Gets the message MessagePublicLogin from the config, and broadcasts it
 	private void MessagePublicLogin() {
-		String text = converse(plugin.getConfig().getString("MessagePublicLogin"));
+		String text = converse(plugin.getConfig().getString("MessagePublicLogin", ""));
 		Bukkit.broadcastMessage(text);
 	}
 	
 	//Gets the message MessagePrivateLogin from the config, and sends it to the player
 	public void MessagePrivateLogin(){
-		String text = converse(plugin.getConfig().getString("MessagePrivateLogin"));
+		String text = converse(plugin.getConfig().getString("MessagePrivateLogin", ""));
 		player.sendMessage(text);
 	}
 	
 	//Gets the message MessagePublicLogout from the config, and broadcasts it
 	private void MessagePublicLogout() {
-		String text = converse(plugin.getConfig().getString("MessagePublicLogout"));
+		String text = converse(plugin.getConfig().getString("MessagePublicLogout", ""));
 		Bukkit.broadcastMessage(text);
 	}
 	
