@@ -19,11 +19,11 @@
 # <motd> = The server's MOTD.
 # <viewdistance> = The server his view distance.
 
-MessagePublicLogin: '<tag><prefix><name><prefixcolor> has logged in'
-MessagePrivateLogin: 'Good to see you again <title><prefix><name>!'
-MessagePublicLogout: '<tag><prefix><name><prefixcolor> has logged out. Cya!'
-kickmessage: '&4Server is full &f-  &6Donate for a reserved slot at &2www.castegaming.net/donate!'
-kickedmessage: <prefix><name>&r<suffix> has logged in, so we needed to make room :(
+MessagePublicLogin: '<tag><space><prefix><space><name><prefixcolor> has logged in'
+MessagePrivateLogin: 'Good to see you again <title><space><prefix><space><name>!'
+MessagePublicLogout: '<tag><space><prefix><space><name><prefixcolor> has logged out. Cya!'
+kickmessage: '&4Server is full &f-  &6Donate for a reserved slot at &2www.MyServerWebsite.domain/donate!'
+kickedmessage: <prefix><space><name>&r<suffix> has logged in, so we needed to make room :(
 sendlogincap: 5
 
 disablefactionswildernesstag: true
@@ -37,3 +37,10 @@ kickplayeronfull: false
 
 overridekickmessage: true
 overridemessages: true
+
+user-login:
+ loginpremium.admin: title
+ loginpremium.mod: bossbar
+ loginpremium.member: chat
+ loginpremium.hero: none
+ other: action

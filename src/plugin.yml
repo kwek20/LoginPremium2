@@ -1,12 +1,17 @@
 main: net.castegaming.plugins.LoginPremium.LoginPremium
 name: LoginPremium
-version: 0.9
+version: 1.0
 author: kwek20
 description: A plugin made to handle login and logout
-website: www.castegaming.net
 softdepend: [Vault, Towny, Factions, PermissionsEX, Heroes]
 
 permissions:
+    loginpremium.mute:
+        description: Allows you to mute yourself from LoginPremium messages
+        default: true
+    loginpremium.unmute:
+        description: Allows you to unmute yourself from LoginPremium messages
+        default: true
     loginpremium.loginmessage:
         description: Sends the login message from the player to the entire server
         default: false

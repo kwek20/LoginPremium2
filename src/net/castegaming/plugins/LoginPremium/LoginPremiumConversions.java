@@ -4,9 +4,12 @@ import java.util.Date;
 import java.util.LinkedList;
 
 import net.castegaming.plugins.LoginPremium.managers.Manager;
+import net.castegaming.plugins.LoginPremium.util.Parse;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 public class LoginPremiumConversions {
@@ -48,16 +51,63 @@ public class LoginPremiumConversions {
 		}
 		
 		result = ChatColor.translateAlternateColorCodes('&', result);
+		result = addSpaces(result);
 		result = result.replaceAll("\\<.*?\\>", "");
 		
 		return result;
 	}
 	
+	/**
+	 * @param result
+	 * @return 
+	 */
+	private static String addSpaces(String result) {
+		String finalResult = "";
+		for (String s : result.split("<space>")){
+			if (s.equals("")) continue;
+			if (!s.endsWith(" "))s += " ";
+			finalResult += s;
+		}
+		return finalResult;
+	}
+
 	public static void addManager(Manager m){
 		managers.add(m);
 	}
 
 	public static void clearManagers() {
 		managers.clear();
+	}
+
+	/**
+	 * @param location
+	 * @return
+	 */
+	public static String toLocString(Location l) {
+		return l.getWorld().getName() + ":" + l.getX() + ":" + l.getY() + ":" + l.getZ() + ":" + l.getYaw() + ":" + l.getPitch();
+	}
+
+	/**
+	 * @param object
+	 * @return
+	 */
+	public static Location toLocation(String loc) {
+		String[] strings = loc.split(":");;
+		if (strings.length == 1) return null;
+		
+		World w = Bukkit.getServer().getWorld(strings[0]);
+		if (w == null) return null;
+		
+		double[] doubles = new double[5];
+		
+		for (int i=0; i < 5; i++){
+			Double d;
+			if ((d = Parse.parseDouble(strings[i+1])) == null){
+				return null;
+			}
+			doubles[i] = d;
+		}
+		
+		return new Location(w, doubles[0], doubles[1], doubles[2], (float) doubles[3], (float) doubles[4]);
 	}
 }

@@ -26,7 +26,21 @@ public class LoginPremiumCommandListener implements Listener{
 	    		if (args.length == 0){
 	    			sender.sendMessage("Try /help LoginPremium for info about Login Premium");
 	    			return true;
-	    		} else if(args[0].startsWith("r")){
+	    		} else if(args[0].equalsIgnoreCase("mute")){
+	    	        if (sender.hasPermission("loginpremium.mute")){
+	    	        	plugin.getPlayerlistener().addMute(sender);
+	    	        	sender.sendMessage("You will no longer receive loginpremium messages!");
+	    	        } else {
+	    	        	sender.sendMessage("You do not have the permission to do that");
+	    	        }
+	    	    } else if(args[0].equalsIgnoreCase("unmute")){
+	    	        if (sender.hasPermission("loginpremium.unmute")){
+	    	        	plugin.getPlayerlistener().removeMute(sender);
+	    	        	sender.sendMessage("You will receive loginpremium messages again! yay");
+	    	        } else {
+	    	        	sender.sendMessage("You do not have the permission to do that");
+	    	        }
+	    	    } else if(args[0].startsWith("r")){
 	    	        if (sender.hasPermission("loginpremium.reload")){
 	    	        	reload();
 	    	        } else {
@@ -58,8 +72,9 @@ public class LoginPremiumCommandListener implements Listener{
 		    	    		setInt("sendlogincap", args);
 		    	    	} else if (args[1].equalsIgnoreCase("spawn")){
 		    	    		if (sender instanceof Player){
-			    	    		plugin.getConfig().set("spawn", ((Player)sender).getLocation());
+			    	    		plugin.getConfig().set("spawn", LoginPremiumConversions.toLocString(((Player)sender).getLocation()));
 			    	    		sender.sendMessage("The spawn has been set to your location.");
+			    	    		plugin.saveConfig();
 			    	    		return true;
 		    	    		} else {
 		    	    			sender.sendMessage("You need to be online to set this value.");
@@ -111,11 +126,12 @@ public class LoginPremiumCommandListener implements Listener{
     	plugin.reloadConfig();
     	LoginPremiumConversions.clearManagers();
     	plugin.addManagers();
+    	plugin.getPlayerlistener().loadGroups();
     	sender.sendMessage("[LoginPremium] Has been reloaded");
     }
     
     public void availableOptions(){
-    	sender.sendMessage("Available options: usesendmessageiflessthensetplayerson, " +
+    	sender.sendMessage("Available options: mute, unmute, usesendmessageiflessthensetplayerson, " +
     			"useprivateloginmessage, usepublicloginmessage, usepubliclogoutmessage, " +
     			"kickoverride, kickmessage, MessagePublicLogin, MessagePrivateLogin, " +
     			"MessagePublicLogout, sendlogincap, overridekickmessage, overridemessages, spawn, usespawn " +

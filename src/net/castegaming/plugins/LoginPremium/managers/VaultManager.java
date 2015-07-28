@@ -7,6 +7,7 @@ import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.permission.Permission;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
@@ -26,31 +27,39 @@ public class VaultManager extends PrefixManager {
 	
 	@Override
 	public String getPlayerPrefix(Player player, String what){
-		String group = permission.getPrimaryGroup(player.getWorld(), player.getName());
+		OfflinePlayer p = Bukkit.getOfflinePlayer(player.getUniqueId());
+		String wn = player.getWorld().getName();
+		String group = permission.getPrimaryGroup(wn, p);
 		
 		if (what.contains("prefix")){
-			if (chat.getPlayerPrefix(player.getWorld(), player.getName()).length() > 0){
-				return chat.getPlayerPrefix(player.getWorld(), player.getName());
+			String prefix;
+			if ((prefix = chat.getPlayerPrefix(wn, p)) != null && prefix.length() > 0){
+				return chat.getPlayerPrefix(wn, p);
 			} else {
-				return chat.getGroupPrefix(player.getWorld(), group);
+				return chat.getGroupPrefix(wn, group);
 			}
 		} else if (what.contains("suffix")){
-			if (chat.getPlayerSuffix(player.getWorld(), player.getName()).length() > 0){
-				return chat.getPlayerSuffix(player.getWorld(), player.getName());
+			String suffix;
+			if ((suffix = chat.getPlayerSuffix(wn, p))!= null && suffix.length() > 0){
+				return suffix;
 			} else {
 				return chat.getGroupSuffix(player.getWorld(), group);
 			}
 		} else if (what.contains("color")){
-			String prefix = chat.getPlayerPrefix(player.getWorld(), player.getName());
-			if (prefix.length() < 1){
-				prefix = chat.getGroupPrefix(player.getWorld(), group);
+			String prefix;
+			if ((prefix = chat.getPlayerPrefix(wn, p)) != null && prefix.length() > 0){
+				
+			} else {
+				prefix = chat.getGroupPrefix(wn, group);
 			}
 			
-			if (prefix.startsWith("&")) {
-				prefix = prefix.substring(0 , 2);
-			} else if (prefix.substring(0, prefix.length()-1).endsWith("&")){
-				prefix = prefix.substring(prefix.length()-2, prefix.length());
-			}
+			if(prefix.length() > 1){
+				if (prefix.startsWith("&")) {
+					prefix = prefix.substring(0 , 2);
+				} else if (prefix.substring(0, prefix.length()-1).endsWith("&")){
+					prefix = prefix.substring(prefix.length()-2, prefix.length());
+				}
+			} else {prefix = "";}
 			return prefix;
 		} else {
 			return "";

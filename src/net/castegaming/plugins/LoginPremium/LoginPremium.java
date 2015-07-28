@@ -5,6 +5,8 @@ import net.castegaming.plugins.LoginPremium.managers.HeroesManager;
 import net.castegaming.plugins.LoginPremium.managers.PexManager;
 import net.castegaming.plugins.LoginPremium.managers.TownyManager;
 import net.castegaming.plugins.LoginPremium.managers.VaultManager;
+import net.castegaming.plugins.LoginPremium.messagemode.ChatMessageMode;
+import net.castegaming.plugins.LoginPremium.messagemode.TitleMessageMode;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,16 +19,31 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class LoginPremium extends JavaPlugin{
 
 	public static LoginPremium plugin;
+	private LoginPremiumPlayerListener playerlistener;
 	
 	public void onEnable(){
 		this.saveDefaultConfig();
 		checkConfig();
 		plugin = this;
-		PluginManager pm = getServer().getPluginManager();
-        pm.registerEvents(new LoginPremiumPlayerListener(this), this);
+		registerListeners();
         addManagers();
 	}
 	
+	/**
+	 * 
+	 */
+	private void registerListeners() {
+		PluginManager pm = getServer().getPluginManager(); 
+        pm.registerEvents(playerlistener = new LoginPremiumPlayerListener(this), this);
+	}
+	
+	/**
+	 * @return the playerlistener
+	 */
+	public LoginPremiumPlayerListener getPlayerlistener() {
+		return playerlistener;
+	}
+
 	public void addManagers(){
 		if (isPexEnabled()){
         	LoginPremiumConversions.addManager(new PexManager());
